@@ -1,19 +1,29 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { searchMeals } from "../api/server"
 
 export default function Order(){
-    const [OrderType, setOrderType] = useState("Breakfast")
-    console.log(OrderType)
+    const [loading , setLoading ]= useState(true)
+    const [mealsType , setMealsType] = useState("")
+
+
+    useEffect(()=>{
+        const fetchMealsType = searchMeals(mealsType)
+        setLoading(false)
+        console.log(fetchMealsType)
+    })
+
 
     return(
-        <div className="order">
+        <div>
+            <div className="order">
             <h2>Make Order</h2>
             <form>
                 <div>
                     <label htmlFor="OrderType">Order Type</label>
                     <select 
-                        onChange={(e)=>{setOrderType(e.target.value)}}
+                        onChange={(e)=>{setMealsType(e.target.value)}}
 
-                    name="OrderType" value={OrderType}>
+                    name="OrderType" value={mealsType}>
                         <option value="Breakfast">Breakfast</option>
                         <option value="Side">Side</option>
                         <option value="Vegetarian">Vegetarian</option>
@@ -22,6 +32,7 @@ export default function Order(){
                 </div>
                 <button type="submit">Add to Cart</button>
             </form>
+        </div>
         </div>
     )
 }
