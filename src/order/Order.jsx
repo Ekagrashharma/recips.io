@@ -5,13 +5,15 @@ export default function Order(){
     const [loading , setLoading ]= useState(true)
     const [mealsType , setMealsType] = useState("")
 
-
-    useEffect(()=>{
-        const fetchMealsType = searchMeals(mealsType)
-        setLoading(false)
-        console.log(fetchMealsType)
-    })
-
+useEffect(() => {
+    async function loadMeals() {
+        const data = await searchMeals(mealsType);
+        console.log(data);
+        setMealsType(data.mealsType)       // { meals: [...] }
+        }
+    loadMeals();
+    
+    }, [mealsType]);
 
     return(
         <div>
@@ -33,6 +35,12 @@ export default function Order(){
                 <button type="submit">Add to Cart</button>
             </form>
         </div>
+        <div className="recips">
+            <h1>MENU</h1>
+            <div>
+                
+            </div>
         </div>
+    </div>
     )
 }
