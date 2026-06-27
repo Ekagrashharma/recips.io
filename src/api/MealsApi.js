@@ -18,12 +18,12 @@ export async function searchMeals(query) {
 }
 
 export async function categoryList() {
-  const response = fetch(CATEGORY_LIST)
+  const response = await fetch(CATEGORY_LIST)
   if (!response.ok){
     throw new Error("failed to fetch category list")
   }
 
   const data = await response.json()
-  console.log(data)
-  return data;
+  console.log(data.categories)
+  return data.categories;
 }

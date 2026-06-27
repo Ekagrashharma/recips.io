@@ -1,29 +1,27 @@
 import { useEffect, useState } from "react";
-import { searchMeals } from "./api/MealsApi";
+import { categoryList, searchMeals } from "./api/MealsApi";
 
 export default function Home() {
 
   const [mealsCategory, setmealsCategory] = useState([])
+  const [categoryType , setCategoryType] = useState()
   const [mealRecips, setMealRecips] = useState([])
-  const [loading, loading] = useState(true)
+  const [loading, setloading] = useState(true)
+
+  useEffect(()=>{
+    async function loadCategory() {
+      try{
+        const data = await categoryList()
+        setmealsCategory(data)
+      }catch (err) {
+      console.error(err);
+    }}
+    loadCategory()
+    setloading(false)
+  },[])
+  
 
 
-  async function fetchMealsCategory (){
-    const Meals = await searchMeals()
-  }
-  // useEffect(() => {
-  //   async function loadMeals() {
-  //     try {
-  //       const data = await searchMeals("beef");
-
-  //       setMeals(data.meals ?? []);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }
-
-  //   loadMeals();
-  // }, []);
 
   return (
     <>
@@ -32,14 +30,24 @@ export default function Home() {
       </header>
       <br />
       <div>
-        <select name="" id>
-          <option value="">Meals Category </option>
+        <select  
+          value={categoryType}
+          onChange={(e)=>(setCategoryType(e.target.value))}
+        >
+          {mealsCategory.map((category) => (
+            <option
+              key={category.idCategory}
+              value={category.strCategory}
+            >
+              {category.strCategory}
+            </option>
+            ))}
         </select>
       </div>
       <div className="recips">
         <h2>recip name</h2>
         <div>
-          <img src="" alt="recip image" />
+          <img  alt="recip image" />
         </div>
         <div className="recips context">
           <span>Category name</span>
